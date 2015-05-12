@@ -10,7 +10,7 @@ function MyCylinder(scene, slices, stacks, minS, maxS, minT, maxT) {
 	this.maxT = maxT || 1;
 
 	this.initBuffers();
-};
+}
 
 MyCylinder.prototype = Object.create(CGFobject.prototype);
 MyCylinder.prototype.constructor = MyCylinder;

@@ -17,7 +17,7 @@ function MyClock(scene) {
 	this.clockAppearance.setSpecular(0.6, 0.6, 0.6, 1);
 	this.clockAppearance.setShininess(10);
 
-};
+}
 
 MyClock.prototype = Object.create(CGFobject.prototype);
 MyClock.prototype.constructor = MyClock;

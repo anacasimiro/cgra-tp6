@@ -29,8 +29,10 @@ LightingScene.prototype.init = function(application) {
 
 	this.axis = new CGFaxis(this);
 
+    
 	// Scene elements
-	this.table 		= new MyTable(this);
+	
+    this.table 		= new MyTable(this);
 	this.stool 		= new MyStool(this);
 
 	this.wall 		= new Plane(this);
@@ -45,8 +47,10 @@ LightingScene.prototype.init = function(application) {
 
 	this.clock 		= new MyClock(this);
 
-	// Material and Appearence
-	this.materialDefault = new CGFappearance(this);
+    
+	// Materials and Appearences
+	
+    this.materialDefault = new CGFappearance(this);
 
 	this.floorAppearance = new CGFappearance(this);
 	this.floorAppearance.setTextureWrap('REPEAT', 'REPEAT');
@@ -81,9 +85,13 @@ LightingScene.prototype.init = function(application) {
 	this.cylinderAppearance.setSpecular(0.6, 0.6, 0.6, 1);
 	this.cylinderAppearance.setShininess(10);
 
-	this.option1=true;
-	this.option2=false;
-	this.speed=3;
+    
+    // Interface
+    
+	this.option1 = true;
+	this.option2 = false;
+	this.speed 	 = 1;
+
 
 	this.setUpdatePeriod(100);
 
@@ -136,11 +144,19 @@ LightingScene.prototype.initLights = function() {
 LightingScene.prototype.updateLights = function() {
 	for (i = 0; i < this.lights.length; i++)
 		this.lights[i].update();
-}
+};
 
 LightingScene.prototype.update = function(currTime) {
 	this.clock.update(currTime);
-}
+};
+
+LightingScene.prototype.moveRobot = function(direction, speed) {
+	this.robot.move(direction, speed);
+};
+
+LightingScene.prototype.rotateRobot = function(direction) {
+	this.robot.rotate(direction);
+};
 
 LightingScene.prototype.display = function() {
 	this.shader.bind();
@@ -278,12 +294,12 @@ LightingScene.prototype.display = function() {
 		this.clock.display();
 	this.popMatrix();
 
+
 	// Robot
 	this.pushMatrix();
-		this.translate(7.5, 0, 7.5);
-		this.rotate(2*Math.PI/3 + Math.PI/2, 0, 1, 0);
 		this.robot.display();
-	this.popMatrix();	
+	this.popMatrix();
+
 
 	// ---- END Primitive drawing section
 

@@ -1,3 +1,7 @@
+/**
+ * MyInterface
+ * @constructor
+ */
 function MyInterface() {
 	//call CGFinterface constructor 
 	CGFinterface.call(this);
@@ -7,6 +11,10 @@ MyInterface.prototype = Object.create(CGFinterface.prototype);
 MyInterface.prototype.constructor = MyInterface;
 
 
+/**
+ * init
+ * @param {CGFapplication} application
+ */
 MyInterface.prototype.init = function(application) {
 	// call CGFinterface init
 	CGFinterface.prototype.init.call(this, application);
@@ -39,7 +47,7 @@ MyInterface.prototype.init = function(application) {
 	// this.speed=3;
 	// min and max values can be specified as parameters
 	
-	this.gui.add(this.scene, 'speed', -5, 5);
+	this.gui.add(this.scene, 'speed', 0, 2);
 
 	return true;
 };
@@ -55,10 +63,30 @@ MyInterface.prototype.processKeyboard = function(event) {
 	// Check key codes e.g. here: http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
 	// or use String.fromCharCode(event.keyCode) to compare chars
 	
+	var direction = {up: 119, right: 100, down: 115, left: 97};
+
 	// for better cross-browser support, you may also check suggestions on using event.which in http://www.w3schools.com/jsref/event_key_keycode.asp
 	switch (event.keyCode)
 	{
-		case (65):	// only works for capital 'A', as it is
-			console.log("Key 'A' pressed");
+		// case (65):	// only works for capital 'A', as it is
+		// 	console.log("Key 'A' pressed");
+		// break;
+
+		case (direction.up):
+			this.scene.moveRobot(1, this.scene.speed);
+		break;
+
+		case (direction.down):
+			this.scene.moveRobot(0, this.scene.speed);
+		break;
+
+		case (direction.right):
+			this.scene.rotateRobot(1);
+		break;
+
+		case (direction.left):
+			this.scene.rotateRobot(0);
+		break
+
 	};
 };
