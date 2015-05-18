@@ -36,16 +36,16 @@ MyInterface.prototype.init = function(application) {
 	var group=this.gui.addFolder("Options");
 	group.open();
 
-	// add two check boxes to the group. The identifiers must be members variables of the scene initialized in scene.init as boolean
-	// this.option1=true; this.option2=false;
+	// Lights
 	
-	group.add(this.scene, 'option1');
-	group.add(this.scene, 'option2');
-	
-	// add a slider
-	// must be a numeric variable of the scene, initialized in scene.init e.g.
-	// this.speed=3;
-	// min and max values can be specified as parameters
+	group.add(this.scene, 'light1');
+	group.add(this.scene, 'light2');
+	group.add(this.scene, 'light3');
+	group.add(this.scene, 'light4');
+	group.add(this.scene, 'clockSwitch');
+
+
+	// Speed Slider
 	
 	this.gui.add(this.scene, 'speed', 0, 2);
 

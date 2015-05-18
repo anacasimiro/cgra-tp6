@@ -87,9 +87,12 @@ LightingScene.prototype.init = function(application) {
 
     
     // Interface
-    
-	this.option1 = true;
-	this.option2 = false;
+
+	this.light1 = true;
+	this.light2 = true;
+	this.light3 = true;
+	this.light4 = true;
+	this.clockSwitch = true;
 	this.speed 	 = 1;
 
 
@@ -142,12 +145,18 @@ LightingScene.prototype.initLights = function() {
 };
 
 LightingScene.prototype.updateLights = function() {
-	for (i = 0; i < this.lights.length; i++)
+	for (i = 0; i < this.lights.length; i++) {
 		this.lights[i].update();
+	}
+	this.light1 ? this.lights[0].enable() : this.lights[0].disable();
+	this.light2 ? this.lights[1].enable() : this.lights[1].disable();
+	this.light3 ? this.lights[2].enable() : this.lights[2].disable();
+	this.light4 ? this.lights[3].enable() : this.lights[3].disable();
 };
 
 LightingScene.prototype.update = function(currTime) {
-	this.clock.update(currTime);
+	if ( this.clockSwitch )
+		this.clock.update(currTime);
 };
 
 LightingScene.prototype.moveRobot = function(direction, speed) {
