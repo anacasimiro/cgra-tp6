@@ -306,8 +306,6 @@ LightingScene.prototype.display = function() {
 
 	// Robot
 	this.pushMatrix();
-		this.setDiffuse(0, 1, 0, 1);
-		this.setAmbient(0, 1, 0, 1);
 		this.translate(this.robot.x, 0, this.robot.z);
 		this.rotate(this.robot.angle, 0, 1, 0);
 		this.scale(0.7, 0.7, 0.7);

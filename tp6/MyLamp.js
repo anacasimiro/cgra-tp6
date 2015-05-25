@@ -1,8 +1,13 @@
-function MyLamp(scene, slices, stacks) {
+function MyLamp(scene, slices, stacks, minS, maxS, minT, maxT) {
 	CGFobject.call(this,scene);
 
 	this.slices = slices;
 	this.stacks = stacks;
+
+	this.minS = minS || 0;
+	this.maxS = maxS || 1;
+	this.minT = minT || 0;
+	this.maxT = maxT || 1;
 
 	this.initBuffers();
 }
@@ -15,6 +20,10 @@ MyLamp.prototype.initBuffers = function() {
 	this.vertices	= new Array();
 	this.indices	= new Array();
 	this.normals	= new Array();
+	this.texCoords	= new Array();
+
+	var deltaS = this.maxS - this.minS;
+	var deltaT = this.maxT - this.minT;
 	
 	for ( var i = 0; i < this.stacks; i++ ) {
 	
@@ -34,6 +43,8 @@ MyLamp.prototype.initBuffers = function() {
 			this.indices.push( (1 + j * 2) % (this.slices * 2) + this.slices * 2 * i );
 			this.indices.push( (3 + j * 2) % (this.slices * 2) + this.slices * 2 * i );
 			this.indices.push( (2 + j * 2) % (this.slices * 2) + this.slices * 2 * i );
+
+
 
 		}
 	 

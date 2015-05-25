@@ -15,7 +15,7 @@ function MyStool(scene) {
 	this.materialMetal.setSpecular(0.4,0.4,0.4,1);	
 	this.materialMetal.setShininess(120);
 
-};
+}
 
 MyStool.prototype = Object.create(CGFobject.prototype);
 MyStool.prototype.constructor = MyStool;

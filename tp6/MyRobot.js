@@ -4,6 +4,7 @@ function MyRobot(scene, minS, maxS, minT, maxT) {
 	this.cylinder = new MyCylinder(scene, 30, 2);
 	this.semisphere = new MyLamp(scene, 30, 20);
 	this.circle = new MyShape(scene, 30);
+	this.wheel = new MyWheel(scene, 30);
 
 	this.minS = minS || 0;
 	this.maxS = maxS || 1;
@@ -13,6 +14,11 @@ function MyRobot(scene, minS, maxS, minT, maxT) {
 	this.x = 7.5;
 	this.z = 7.5;
 	this.angle = 270 * degToRad;
+
+	this.robotAppearance = new CGFappearance(this.scene);
+	this.robotAppearance.setDiffuse(0, 1, 0, 1);
+	this.robotAppearance.setAmbient(0, 1, 0, 1);
+	this.robotAppearance.setSpecular(0, 1, 0, 1);
 
 	this.initBuffers();
 }
@@ -75,80 +81,105 @@ MyRobot.prototype.display = function() {
 
 	// Body
 	this.scene.pushMatrix();
+		this.scene.translate(0, 0.3, 0);
 		this.scene.pushMatrix();
 			this.scene.scale(1, 1.5, 1);
 			this.scene.rotate(-90 * degToRad, 1, 0, 0);
+			this.robotAppearance.apply();
 			this.cylinder.display();
 		this.scene.popMatrix();
 		this.scene.pushMatrix();
 			this.scene.translate(0, 3, 0);
 			this.scene.rotate(-90 * degToRad, 1, 0, 0);
-			this.scene.setDiffuse(0, 0.2, 0, 1);
+			this.robotAppearance.apply();
 			this.circle.display();
-			this.scene.setDiffuse(0, 1, 0, 1);
 		this.scene.popMatrix();
 		this.scene.pushMatrix();
 			this.scene.rotate(90 * degToRad, 1, 0, 0);
-			this.scene.setDiffuse(0, 0.2, 0, 1);
+			this.robotAppearance.apply();
 			this.circle.display();
-			this.scene.setDiffuse(0, 1, 0, 1);
 		this.scene.popMatrix();
 	this.scene.popMatrix();
 
 	// Head
 	this.scene.pushMatrix();
+		this.scene.translate(0, 0.3, 0);
 		this.scene.pushMatrix();
 			this.scene.translate(0, 3.1, 0);
 			this.scene.rotate(-90 * degToRad, 1, 0, 0);
+			this.robotAppearance.apply();
 			this.semisphere.display();
 		this.scene.popMatrix();
 		this.scene.pushMatrix();
 			this.scene.translate(0, 3.1, 0);
 			this.scene.rotate(90 * degToRad, 1, 0, 0);
-			this.scene.setDiffuse(0, 0.2, 0, 1);
+			this.robotAppearance.apply();
 			this.circle.display();
-			this.scene.setDiffuse(0, 1, 0, 1);
 		this.scene.popMatrix();
 	this.scene.popMatrix();
 
 	// Right Arm
 	this.scene.pushMatrix();
-		this.scene.translate(-1.35, 1.8, 0);
+		this.scene.translate(-1.35, 2.1, 0);
 		this.scene.scale(0.3, 0.3, 0.3);
 		this.scene.pushMatrix();
 			this.scene.scale(1, 1.5, 1);
 			this.scene.rotate(-90 * degToRad, 1, 0, 0);
+			this.robotAppearance.apply();
 			this.cylinder.display();
 		this.scene.popMatrix();
 		this.scene.pushMatrix();
 			this.scene.rotate(90 * degToRad, 1, 0, 0);
+			this.robotAppearance.apply();
 			this.semisphere.display();
 		this.scene.popMatrix();
 		this.scene.pushMatrix();
 			this.scene.translate(0, 3, 0);
 			this.scene.rotate(-90 * degToRad, 1, 0, 0);
+			this.robotAppearance.apply();
 			this.semisphere.display();
 		this.scene.popMatrix();
 	this.scene.popMatrix();
 
 	// Left Arm
 	this.scene.pushMatrix();
-		this.scene.translate(1.35, 1.8, 0);
+		this.scene.translate(1.35, 2.1, 0);
 		this.scene.scale(0.3, 0.3, 0.3);
 		this.scene.pushMatrix();
 			this.scene.scale(1, 1.5, 1);
 			this.scene.rotate(-90 * degToRad, 1, 0, 0);
+			this.robotAppearance.apply();
 			this.cylinder.display();
 		this.scene.popMatrix();
 		this.scene.pushMatrix();
 			this.scene.rotate(90 * degToRad, 1, 0, 0);
+			this.robotAppearance.apply();
 			this.semisphere.display();
 		this.scene.popMatrix();
 		this.scene.pushMatrix();
 			this.scene.translate(0, 3, 0);
 			this.scene.rotate(-90 * degToRad, 1, 0, 0);
+			this.robotAppearance.apply();
 			this.semisphere.display();
 		this.scene.popMatrix();
+	this.scene.popMatrix();
+
+	// Right Wheel
+	this.scene.pushMatrix();
+		this.scene.rotate(-90 * degToRad, 0, 1, 0);
+		this.scene.translate(0, 0.5, 1.05);
+		this.scene.scale(0.5, 0.5, 0.2);
+		this.robotAppearance.apply();
+		this.wheel.display();
+	this.scene.popMatrix();
+
+	// Left Wheel
+	this.scene.pushMatrix();
+		this.scene.rotate(90 * degToRad, 0, 1, 0);
+		this.scene.translate(0, 0.5, 1.05);
+		this.scene.scale(0.5, 0.5, 0.2);
+		this.robotAppearance.apply();
+		this.wheel.display();
 	this.scene.popMatrix();
 
 };

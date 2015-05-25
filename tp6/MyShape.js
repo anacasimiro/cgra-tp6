@@ -9,15 +9,15 @@ function MyShape(scene, sides, minS, maxS, minT, maxT) {
 	this.sides = sides > 2 ? sides : 3;
 
 	this.initBuffers();
-};
+}
 
 MyShape.prototype = Object.create(CGFobject.prototype);
 MyShape.prototype.constructor = MyShape;
 
 MyShape.prototype.initBuffers = function() {
 	
-	medS = (this.minS + this.maxS) / 2;
-	medT = (this.minT + this.maxT) / 2;
+	var medS = (this.minS + this.maxS) / 2;
+	var medT = (this.minT + this.maxT) / 2;
 
 	this.vertices = [
         0, 0, 0
@@ -26,7 +26,7 @@ MyShape.prototype.initBuffers = function() {
 	this.indices = [];
 		
 	this.normals = [
-		0, 0, 1,
+		0, 0, 1
 	];
 
 	this.texCoords = [

@@ -18,6 +18,7 @@ serialInclude([
 	'MyInterface.js',
 	'MyRobot.js',
 	'MyLamp.js',
+	'MyWheel.js',
 
 	main=function() {
 		var app = new CGFapplication(document.body);
