@@ -33,7 +33,7 @@ MyShape.prototype.initBuffers = function() {
 		medS, medT
 	];
 
-	for ( i = 0; i < this.sides; i++ ) {
+	for ( var i = 0; i < this.sides; i++ ) {
 
 		this.vertices.push(Math.cos( i * 2 * Math.PI / this.sides ), Math.sin( i * 2 * Math.PI / this.sides ), 0);
 		this.indices.push(0, i + 1, (i == this.sides - 1) ? 1 : (i + 2) );

@@ -6,7 +6,7 @@ function MyWheel(scene, sides) {
 	this.angle = 0;
 
 	this.wheelAppearance = new CGFappearance(scene);
-	this.wheelAppearance.loadTexture('../resources/images/wheel.png');
+	this.wheelAppearance.loadTexture('../resources/images/wheel1.png');
 	this.wheelAppearance.setDiffuse(1, 1, 1, 1);
 	this.wheelAppearance.setAmbient(1, 1, 1, 1);
 	this.wheelAppearance.setShininess(20);

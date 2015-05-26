@@ -24,15 +24,18 @@ MyLamp.prototype.initBuffers = function() {
 
 	var deltaS = this.maxS - this.minS;
 	var deltaT = this.maxT - this.minT;
+
+	var medS = (this.minS + this.maxS) / 2;
+	var medT = (this.minT + this.maxT) / 2;
 	
 	for ( var i = 0; i < this.stacks; i++ ) {
 	
 		for ( var j = 0; j < this.slices; j++ ) {
-	
+
 			this.vertices.push(Math.cos(2 * Math.PI / this.slices * j) * Math.sin(Math.PI / (2 * this.stacks) * i));
 			this.vertices.push(Math.sin(2 * Math.PI / this.slices * j) * Math.sin(Math.PI / (2 * this.stacks) * i));
 			this.vertices.push(Math.cos(Math.PI / (2 * this.stacks) * i));
-			
+
 			this.vertices.push(Math.cos(2 * Math.PI / this.slices * j) * Math.sin(Math.PI / (2 * this.stacks) * (i + 1)));
 			this.vertices.push(Math.sin(2 * Math.PI / this.slices * j) * Math.sin(Math.PI / (2 * this.stacks) * (i + 1)));
 			this.vertices.push(Math.cos(Math.PI / (2 * this.stacks) * (i + 1)));
@@ -44,7 +47,8 @@ MyLamp.prototype.initBuffers = function() {
 			this.indices.push( (3 + j * 2) % (this.slices * 2) + this.slices * 2 * i );
 			this.indices.push( (2 + j * 2) % (this.slices * 2) + this.slices * 2 * i );
 
-
+			this.texCoords.push(medS + i * medS / this.stacks * Math.cos( j * 2 * Math.PI / this.slices ), medT + i * medT / this.stacks * Math.sin( j * 2 * Math.PI / this.slices ));
+			this.texCoords.push(medS + (i + 1) * medS / this.stacks * Math.cos( j * 2 * Math.PI / this.slices ), medT + (i + 1) * medT / this.stacks * Math.sin( j * 2 * Math.PI / this.slices ));
 
 		}
 	 

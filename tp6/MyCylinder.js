@@ -36,26 +36,43 @@ MyCylinder.prototype.initBuffers = function() {
 			this.vertices.push(Math.cos(2 * Math.PI / this.slices * j));
 			this.vertices.push(Math.sin(2 * Math.PI / this.slices * j));
 			this.vertices.push(i + 1);
-			
-			this.indices.push( (1 + j * 2) % (this.slices * 2) + this.slices * 2 * i );
-			this.indices.push( (0 + j * 2) % (this.slices * 2) + this.slices * 2 * i );
-			this.indices.push( (2 + j * 2) % (this.slices * 2) + this.slices * 2 * i );
-			this.indices.push( (1 + j * 2) % (this.slices * 2) + this.slices * 2 * i );
-			this.indices.push( (2 + j * 2) % (this.slices * 2) + this.slices * 2 * i );
-			this.indices.push( (3 + j * 2) % (this.slices * 2) + this.slices * 2 * i );
-			
-			this.normals.push(Math.cos(2 * Math.PI / this.slices * j));
-			this.normals.push(Math.sin(2 * Math.PI / this.slices * j));
-			this.normals.push(0);
-			
-			this.normals.push(Math.cos(2 * Math.PI / this.slices * j));
-			this.normals.push(Math.sin(2 * Math.PI / this.slices * j));
-			this.normals.push(0);
 
+			this.vertices.push(Math.cos(2 * Math.PI / this.slices * (j + 1)));
+			this.vertices.push(Math.sin(2 * Math.PI / this.slices * (j + 1)));
+			this.vertices.push(i);
 
-			this.texCoords.push(this.minS + j * deltaS/this.slices, this.minT + i * deltaT/this.stacks);
-			this.texCoords.push(this.minS + j * deltaS/this.slices, this.minT + (i + 1) * deltaT/this.stacks);
-						 
+			this.vertices.push(Math.cos(2 * Math.PI / this.slices * (j + 1)));
+			this.vertices.push(Math.sin(2 * Math.PI / this.slices * (j + 1)));
+			this.vertices.push(i + 1);
+
+			this.indices.push( 1 + j * 4 + i * 4 * this.slices );
+			this.indices.push( 0 + j * 4 + i * 4 * this.slices );
+			this.indices.push( 2 + j * 4 + i * 4 * this.slices );
+			this.indices.push( 1 + j * 4 + i * 4 * this.slices );
+			this.indices.push( 2 + j * 4 + i * 4 * this.slices );
+			this.indices.push( 3 + j * 4 + i * 4 * this.slices );
+
+			this.normals.push( Math.cos( 2 * Math.PI / this.slices * j ) );
+			this.normals.push( Math.sin( 2 * Math.PI / this.slices * j ) );
+			this.normals.push( 0 );
+
+			this.normals.push( Math.cos( 2 * Math.PI / this.slices * j ) );
+			this.normals.push( Math.sin( 2 * Math.PI / this.slices * j ) );
+			this.normals.push( 0 );
+
+			this.normals.push( Math.cos( 2 * Math.PI / this.slices * (j + 1) ) );
+			this.normals.push( Math.sin( 2 * Math.PI / this.slices * (j + 1) ) );
+			this.normals.push( 0 );
+
+			this.normals.push( Math.cos( 2 * Math.PI / this.slices * (j + 1) ) );
+			this.normals.push( Math.sin( 2 * Math.PI / this.slices * (j + 1) ) );
+			this.normals.push( 0 );
+
+			this.texCoords.push( this.minS + j * deltaS / this.slices , this.minT + i * deltaT / this.stacks );
+			this.texCoords.push( this.minS + j * deltaS / this.slices , this.minT + (i + 1) * deltaT / this.stacks );
+			this.texCoords.push( this.minS + (j + 1) * deltaS / this.slices , this.minT + i * deltaT / this.stacks );
+			this.texCoords.push( this.minS + (j + 1) * deltaS / this.slices , this.minT + (i + 1) * deltaT / this.stacks );
+
 		}
 	 
 	}

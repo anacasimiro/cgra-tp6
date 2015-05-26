@@ -42,51 +42,94 @@ MyInterface.prototype.init = function(application) {
 	group.add(this.scene, 'light2');
 	group.add(this.scene, 'light3');
 	group.add(this.scene, 'light4');
+
+	// Clock
+
 	group.add(this.scene, 'clockSwitch');
 
-
-	// Speed Slider
+	// Robot Speed
 	
-	this.gui.add(this.scene, 'speed', 0, 2);
+	this.gui.add(this.scene, 'robotSpeed', 0.02, 0.2);
+
+
+	// Pressed keys
+
+	this.direction = {up: 87, right: 68, down: 83, left: 65};
+	this.pressedKeys = [false, false, false, false];
 
 	return true;
 };
 
 /**
- * processKeyboard
+ * processKeyDown
  * @param event {Event}
  */
-MyInterface.prototype.processKeyboard = function(event) {
-	// call CGFinterface default code (omit if you want to override)
-	CGFinterface.prototype.processKeyboard.call(this,event);
-	
-	// Check key codes e.g. here: http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
-	// or use String.fromCharCode(event.keyCode) to compare chars
-	
-	var direction = {up: 119, right: 100, down: 115, left: 97};
+MyInterface.prototype.processKeyDown = function(event) {
 
-	// for better cross-browser support, you may also check suggestions on using event.which in http://www.w3schools.com/jsref/event_key_keycode.asp
+	CGFinterface.prototype.processKeyDown.call(this,event);
+
 	switch (event.keyCode)
 	{
-		// case (65):	// only works for capital 'A', as it is
-		// 	console.log("Key 'A' pressed");
-		// break;
 
-		case (direction.up):
-			this.scene.moveRobot(1, this.scene.speed);
+		case (this.direction.up):
+			this.pressedKeys[0] = true;
 		break;
 
-		case (direction.down):
-			this.scene.moveRobot(0, this.scene.speed);
+		case (this.direction.right):
+			this.pressedKeys[1] = true;
 		break;
 
-		case (direction.right):
-			this.scene.rotateRobot(1);
+		case (this.direction.down):
+			this.pressedKeys[2] = true;
 		break;
 
-		case (direction.left):
-			this.scene.rotateRobot(0);
-		break
+		case (this.direction.left):
+			this.pressedKeys[3] = true;
+		break;
 
-	};
+	}
+
+};
+
+/**
+ * processKeyUp
+ * @param event {Event}
+ */
+MyInterface.prototype.processKeyUp = function(event) {
+
+	CGFinterface.prototype.processKeyUp.call(this,event);
+
+	switch (event.keyCode)
+	{
+
+		case (this.direction.up):
+			this.pressedKeys[0] = false;
+		break;
+
+		case (this.direction.right):
+			this.pressedKeys[1] = false;
+		break;
+
+		case (this.direction.down):
+			this.pressedKeys[2] = false;
+		break;
+
+		case (this.direction.left):
+			this.pressedKeys[3] = false;
+		break;
+
+	}
+
+};
+
+/**
+ * update
+ */
+MyInterface.prototype.update = function() {
+
+	if ( this.pressedKeys[0] ) this.scene.moveRobot(1);
+	if ( this.pressedKeys[1] ) this.scene.rotateRobot(1);
+	if ( this.pressedKeys[2] ) this.scene.moveRobot(0);
+	if ( this.pressedKeys[3] ) this.scene.rotateRobot(0);
+
 };

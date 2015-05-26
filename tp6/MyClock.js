@@ -6,10 +6,6 @@ function MyClock(scene) {
    	this.hoursHand = new MyClockHand(this.scene, 0.3, 1);
    	this.minutesHand = new MyClockHand(this.scene, 0.8, 0.6);
    	this.secondsHand = new MyClockHand(this.scene, 0.8, 0.3);
-
-   	this.hoursHand.setAngle(90);
-   	this.minutesHand.setAngle(180);
-   	this.secondsHand.setAngle(270);
     
 	this.clockAppearance = new CGFappearance(this.scene);
 	this.clockAppearance.loadTexture('../resources/images/clock.png');
@@ -24,9 +20,9 @@ MyClock.prototype.constructor = MyClock;
 
 MyClock.prototype.update = function(currTime) {
 
-	this.hoursHand.setAngle(currTime * 180 / (6*60*60*1000));
-	this.minutesHand.setAngle(currTime * 180 / (30*60*1000));
-	this.secondsHand.setAngle(currTime * 180 / (30*1000));
+	this.hoursHand.angle = currTime * 180 / (6*60*60*1000);
+	this.minutesHand.angle = currTime * 180 / (30*60*1000);
+	this.secondsHand.angle = currTime * 180 / (30*1000);
 
 }
 

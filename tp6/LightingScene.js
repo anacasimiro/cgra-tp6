@@ -6,6 +6,8 @@ var BOARD_HEIGHT = 4.0;
 var BOARD_A_DIVISIONS = 30;
 var BOARD_B_DIVISIONS = 100;
 
+var FPS = 90;
+
 function LightingScene() {
 	CGFscene.call(this);
 }
@@ -93,10 +95,10 @@ LightingScene.prototype.init = function(application) {
 	this.light3 = true;
 	this.light4 = true;
 	this.clockSwitch = true;
-	this.speed 	 = 1;
+	this.robotSpeed = 0.12;
 
 
-	this.setUpdatePeriod(100);
+	this.setUpdatePeriod(1000 / FPS);
 
 };
 
@@ -122,10 +124,12 @@ LightingScene.prototype.initLights = function() {
 	this.lights[0].setAmbient(0, 0, 0, 1);
 	this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
 	this.lights[0].setSpecular(1.0, 1.0, 1, 1.0);
+	this.lights[0].setVisible(true);
 	this.lights[0].enable();
 
 	this.lights[1].setAmbient(0, 0, 0, 1);
 	this.lights[1].setDiffuse(1.0, 1.0, 1.0, 1.0);
+	this.lights[1].setVisible(true);
 	this.lights[1].enable();
 
 	this.lights[2].setAmbient(0, 0, 0, 1);
@@ -134,11 +138,13 @@ LightingScene.prototype.initLights = function() {
 	this.lights[2].setConstantAttenuation(0);
 	this.lights[2].setLinearAttenuation(1);
 	this.lights[2].setQuadraticAttenuation(0);
+	this.lights[2].setVisible(true);
 	this.lights[2].enable();
 
 	this.lights[3].setAmbient(0, 0, 0, 1);
 	this.lights[3].setDiffuse(1.0, 1.0, 1.0, 1.0);
 	this.lights[3].setSpecular(1.0, 1.0, 1.0, 1.0);
+	this.lights[3].setVisible(true);
 	this.lights[3].enable();
 
 	this.shader.unbind();
@@ -159,12 +165,12 @@ LightingScene.prototype.update = function(currTime) {
 		this.clock.update(currTime);
 };
 
-LightingScene.prototype.moveRobot = function(direction, speed) {
-	this.robot.move(direction, speed);
+LightingScene.prototype.moveRobot = function(direction) {
+	this.robot.move(direction, this.robotSpeed);
 };
 
 LightingScene.prototype.rotateRobot = function(direction) {
-	this.robot.rotate(direction);
+	this.robot.rotate(direction, this.robotSpeed);
 };
 
 LightingScene.prototype.display = function() {
@@ -307,7 +313,7 @@ LightingScene.prototype.display = function() {
 	// Robot
 	this.pushMatrix();
 		this.translate(this.robot.x, 0, this.robot.z);
-		this.rotate(this.robot.angle, 0, 1, 0);
+		this.rotate(this.robot.angle * degToRad, 0, 1, 0);
 		this.scale(0.7, 0.7, 0.7);
 		this.robot.display();
 	this.popMatrix();
