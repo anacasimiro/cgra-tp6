@@ -11,10 +11,9 @@ function MyTable(scene) {
     this.unitCube = new MyUnitCubeQuad(this.scene);
 
 	this.materialMetal = new CGFappearance(this.scene);
-	this.materialMetal.setAmbient(0.2,0.2,0.2,1);
-	this.materialMetal.setDiffuse(0.3,0.3,0.3,1);
-	this.materialMetal.setSpecular(0.4,0.4,0.4,1);	
-	this.materialMetal.setShininess(120);
+	this.materialMetal.setAmbient(0.05, 0.05, 0.05, 1);
+	this.materialMetal.setDiffuse(0.2, 0.2, 0.2, 1);
+	this.materialMetal.setSpecular(0.3,0.3,0.3,1);
 
 };
 
@@ -28,7 +27,7 @@ MyTable.prototype.display = function() {
 	// Top
 	
 	this.scene.pushMatrix();
-	this.scene.translate(0, 3.65, 0);
+	this.scene.translate(0, 3.15, 0);
 	this.scene.scale(5, 0.3, 3);
 	this.tableAppearance.apply();
 	this.unitCube.display();
@@ -38,8 +37,8 @@ MyTable.prototype.display = function() {
 	// Leg 1
 
 	this.scene.pushMatrix();
-	this.scene.translate(-2.20, 1.75, 1.20);
-	this.scene.scale(0.3, 3.5, 0.3);
+	this.scene.translate(-2.20, 1.5, 1.20);
+	this.scene.scale(0.3, 3.0, 0.3);
 	this.materialMetal.apply();
 	this.unitCube.display();
 	this.scene.popMatrix();
@@ -48,8 +47,8 @@ MyTable.prototype.display = function() {
 	// Leg 2
 
 	this.scene.pushMatrix();
-	this.scene.translate(2.20, 1.75, 1.20);
-	this.scene.scale(0.3, 3.5, 0.3);
+	this.scene.translate(2.20, 1.5, 1.20);
+	this.scene.scale(0.3, 3.0, 0.3);
 	this.unitCube.display();
 	this.scene.popMatrix();
 
@@ -57,8 +56,8 @@ MyTable.prototype.display = function() {
 	// Leg 3
 
 	this.scene.pushMatrix();
-	this.scene.translate(2.20, 1.75, -1.20);
-	this.scene.scale(0.3, 3.5, 0.3);
+	this.scene.translate(2.20, 1.5, -1.20);
+	this.scene.scale(0.3, 3.0, 0.3);
 	this.unitCube.display();
 	this.scene.popMatrix();
 
@@ -66,8 +65,8 @@ MyTable.prototype.display = function() {
 	// Leg 4
 
 	this.scene.pushMatrix();
-	this.scene.translate(-2.20, 1.75, -1.20);
-	this.scene.scale(0.3, 3.5, 0.3);
+	this.scene.translate(-2.20, 1.5, -1.20);
+	this.scene.scale(0.3, 3.0, 0.3);
 	this.unitCube.display();
 	this.scene.popMatrix();
 

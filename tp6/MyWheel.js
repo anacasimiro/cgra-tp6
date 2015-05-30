@@ -5,11 +5,8 @@ function MyWheel(scene, sides) {
 	this.back = new MyShape(scene, sides);
 	this.angle = 0;
 
-	this.wheelAppearance = new CGFappearance(scene);
-	this.wheelAppearance.loadTexture('../resources/images/wheel1.png');
-	this.wheelAppearance.setDiffuse(1, 1, 1, 1);
-	this.wheelAppearance.setAmbient(1, 1, 1, 1);
-	this.wheelAppearance.setShininess(20);
+	this.backAppearance = new CGFappearance(scene);
+	this.backAppearance.setDiffuse(0, 0, 0, 1);
 
 }
 
@@ -19,17 +16,17 @@ MyWheel.prototype.constructor = MyWheel;
 MyWheel.prototype.display = function() {
 
 	this.scene.pushMatrix();
+		this.scene.rotate(this.angle * degToRad, 0, 0, 1);
+		this.front.display();
+	this.scene.popMatrix();
+
+	this.scene.pushMatrix();
 		this.scene.setDiffuse(0.2, 0.2, 0.2, 1);
 		this.scene.setAmbient(0.2, 0.2, 0.2, 1);
 		this.scene.setSpecular(0, 0, 0, 0);
 		this.scene.rotate(180 * degToRad, 0, 1, 0);
+		this.backAppearance.apply();
 		this.back.display();
-	this.scene.popMatrix();
-
-	this.scene.pushMatrix();
-		this.scene.rotate(this.angle * degToRad, 0, 0, 1);
-		this.wheelAppearance.apply();
-		this.front.display();
 	this.scene.popMatrix();
 
 };

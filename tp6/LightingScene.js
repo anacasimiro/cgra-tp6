@@ -96,15 +96,12 @@ LightingScene.prototype.init = function(application) {
 	this.light4 = true;
 	this.clockSwitch = true;
 	this.robotSpeed = 0.12;
+	this.currRobotAppearance = 1;
 
 
 	this.setUpdatePeriod(1000 / FPS);
 
 };
-
-LightingScene.prototype.doSomething = function() {
-	console.log("Doing something...");
-}
 
 LightingScene.prototype.initCameras = function() {
 	this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 30, 30), vec3.fromValues(0, 0, 0));
@@ -116,35 +113,29 @@ LightingScene.prototype.initLights = function() {
 	this.shader.bind();
 	
 	// Positions for four lights
-	this.lights[0].setPosition(4, 6, 1, 1);
+	this.lights[0].setPosition(4.0, 6.0, 1.0, 1.0);
 	this.lights[1].setPosition(10.5, 6.0, 1.0, 1.0);
-	this.lights[2].setPosition(10.5, 6.0, 5.0, 1.0);
-	this.lights[3].setPosition(0, 4, 7.5, 1.0);
+	this.lights[2].setPosition(15.0, 8.0, 15, 1.0);
+	this.lights[3].setPosition(0.0, 8.0, 15, 1.0);
 
 	this.lights[0].setAmbient(0, 0, 0, 1);
 	this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
-	this.lights[0].setSpecular(1.0, 1.0, 1, 1.0);
-	this.lights[0].setVisible(true);
+	this.lights[0].setSpecular(1.0, 1.0, 1.0, 1.0);
 	this.lights[0].enable();
 
 	this.lights[1].setAmbient(0, 0, 0, 1);
 	this.lights[1].setDiffuse(1.0, 1.0, 1.0, 1.0);
-	this.lights[1].setVisible(true);
+	this.lights[1].setSpecular(1.0, 1.0, 1.0, 1.0);
 	this.lights[1].enable();
 
 	this.lights[2].setAmbient(0, 0, 0, 1);
 	this.lights[2].setDiffuse(1.0, 1.0, 1.0, 1.0);
-	this.lights[2].setSpecular(1,1,1,1);
-	this.lights[2].setConstantAttenuation(0);
-	this.lights[2].setLinearAttenuation(1);
-	this.lights[2].setQuadraticAttenuation(0);
-	this.lights[2].setVisible(true);
+	this.lights[2].setSpecular(1.0, 1.0, 1.0, 1.0);
 	this.lights[2].enable();
 
 	this.lights[3].setAmbient(0, 0, 0, 1);
 	this.lights[3].setDiffuse(1.0, 1.0, 1.0, 1.0);
 	this.lights[3].setSpecular(1.0, 1.0, 1.0, 1.0);
-	this.lights[3].setVisible(true);
 	this.lights[3].enable();
 
 	this.shader.unbind();
@@ -161,8 +152,13 @@ LightingScene.prototype.updateLights = function() {
 };
 
 LightingScene.prototype.update = function(currTime) {
-	if ( this.clockSwitch )
+
+	this.robot.update();
+
+	if ( this.clockSwitch ) {
 		this.clock.update(currTime);
+	}
+
 };
 
 LightingScene.prototype.moveRobot = function(direction) {
@@ -239,39 +235,43 @@ LightingScene.prototype.display = function() {
 
 	// First Table
 	this.pushMatrix();
-		this.translate(3.75, 0, 7.5);
+		this.translate(3.75, 0, 11);
+		this.scale(0.5, 0.5, 0.5);
 		this.table.display();
 	this.popMatrix();
 
 	// Second Table
 	this.pushMatrix();
-		this.translate(11.25, 0, 7.5);
+		this.translate(11.25, 0, 11);
+		this.scale(0.5, 0.5, 0.5);
 		this.table.display();
 	this.popMatrix();
 
-	// First Bank
-	this.pushMatrix();
-		this.translate(3.75, 0, 5);
-		this.stool.display();
-	this.popMatrix();
+	//// First Stool
+	//this.pushMatrix();
+	//	this.translate(3.75, 0, 5);
+	//	this.stool.display();
+	//this.popMatrix();
 
-	// Second Bank
-	this.pushMatrix();
-		this.translate(11.25, 0, 10);
-		this.stool.display();
-	this.popMatrix();
+	//// Second Stool
+	//this.pushMatrix();
+	//	this.translate(11.25, 0, 13);
+	//	this.scale(0.5, 0.5, 0.5);
+	//	this.stool.display();
+	//this.popMatrix();
 
-	// Third Bank
-	this.pushMatrix();
-		this.translate(3.75, 0, 10);
-		this.stool.display();
-	this.popMatrix();
+	//// Third Stool
+	//this.pushMatrix();
+	//	this.translate(3.75, 0, 13);
+	//	this.scale(0.5, 0.5, 0.5);
+	//	this.stool.display();
+	//this.popMatrix();
 
-	// Fourth Bank
-	this.pushMatrix();
-		this.translate(11.25, 0, 5);
-		this.stool.display();
-	this.popMatrix();
+	//// Fourth Stool
+	//this.pushMatrix();
+	//	this.translate(11.25, 0, 5);
+	//	this.stool.display();
+	//this.popMatrix();
 
 	// Board A
 	this.pushMatrix();

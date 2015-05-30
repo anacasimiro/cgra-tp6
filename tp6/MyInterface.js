@@ -21,20 +21,10 @@ MyInterface.prototype.init = function(application) {
 	
 	// init GUI. For more information on the methods, check:
 	//  http://workshop.chromeexperiments.com/examples/gui
-	
+
 	this.gui = new dat.GUI();
 
-	// add a button:
-	// the first parameter is the object that is being controlled (in this case the scene)
-	// the identifier 'doSomething' must be a function declared as part of that object (i.e. a member of the scene class)
-	// e.g. LightingScene.prototype.doSomething = function () { console.log("Doing something..."); }; 
-
-	this.gui.add(this.scene, 'doSomething');	
-
-	// add a group of controls (and open/expand by defult)
-	
-	var group=this.gui.addFolder("Options");
-	group.open();
+	var group = this.gui.addFolder("Options");
 
 	// Lights
 	
@@ -51,6 +41,12 @@ MyInterface.prototype.init = function(application) {
 	
 	this.gui.add(this.scene, 'robotSpeed', 0.02, 0.2);
 
+	// Robot appearance
+
+	this.robotAppearanceList = {IronMan: 0, TheHulk: 1, CaptainAmerica: 2};
+
+	this.gui.add(this.scene, 'currRobotAppearance', this.robotAppearanceList);
+
 
 	// Pressed keys
 
@@ -58,6 +54,20 @@ MyInterface.prototype.init = function(application) {
 	this.pressedKeys = [false, false, false, false];
 
 	return true;
+};
+
+/**
+ * processKeyboard
+ * @param event {Event}
+ */
+MyInterface.prototype.processKeyboard = function(event) {
+
+	CGFinterface.prototype.processKeyboard.call(this,event);
+
+	if ( event.keyCode == 71 || event.keyCode == 103 ) {
+		this.scene.robot.waving = 1;
+	}
+
 };
 
 /**
@@ -131,5 +141,7 @@ MyInterface.prototype.update = function() {
 	if ( this.pressedKeys[1] ) this.scene.rotateRobot(1);
 	if ( this.pressedKeys[2] ) this.scene.moveRobot(0);
 	if ( this.pressedKeys[3] ) this.scene.rotateRobot(0);
+
+	this.pressedKeys[0] ^ this.pressedKeys[2] ? this.scene.robot.moving = 1 : this.scene.robot.moving = 0;
 
 };
