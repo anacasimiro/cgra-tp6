@@ -42,12 +42,15 @@ LightingScene.prototype.init = function(application) {
 	this.boardB 	= new Plane(this, BOARD_B_DIVISIONS);
 
 	this.floor 		= new MyQuad(this,0, 10, 0, 12);
-	this.cubeA 		= new MyQuad(this, -0.2, 1.2, -0.5, 1.5);
+	this.windowWall = new MyQuad(this, -0.2, 1.2, -0.5, 1.5);
 	this.prism 		= new MyPrism(this, 8, 20);
 	this.cylinder 	= new MyCylinder(this, 30, 8);
 	this.robot 		= new MyRobot(this);
 
 	this.clock 		= new MyClock(this);
+
+	this.impostor	= new MyQuad(this);
+	this.windowedWall = new MyWindowedWall(this, 0, 1, 0, 1, 0.3415, 0.6585, 0.2, 0.72);
 
     
 	// Materials and Appearences
@@ -87,6 +90,16 @@ LightingScene.prototype.init = function(application) {
 	this.cylinderAppearance.setSpecular(0.6, 0.6, 0.6, 1);
 	this.cylinderAppearance.setShininess(10);
 
+	this.wallAppearance = new CGFappearance(this);
+	this.wallAppearance.loadTexture('../resources/images/wall.png');
+
+	this.windowedWallAppearance = new CGFappearance(this);
+	this.windowedWallAppearance.loadTexture('../resources/images/window_wall.png');
+
+	this.impostorAppearance = new CGFappearance(this);
+	this.impostorAppearance.loadTexture('../resources/images/impostor.png');
+
+
     
     // Interface
 
@@ -97,7 +110,6 @@ LightingScene.prototype.init = function(application) {
 	this.clockSwitch = true;
 	this.robotSpeed = 0.12;
 	this.currRobotAppearance = 1;
-
 
 	this.setUpdatePeriod(1000 / FPS);
 
@@ -189,7 +201,7 @@ LightingScene.prototype.display = function() {
 	this.updateLights();
 
 	// Draw axis
-	this.axis.display();
+	//this.axis.display();
 
 	this.materialDefault.apply();
 
@@ -213,39 +225,27 @@ LightingScene.prototype.display = function() {
 		this.materialDefault.apply();
 	this.popMatrix();
 
-	// Left Wall
-	this.pushMatrix();
-		this.translate(0, 4, 7.5);
-		this.rotate(90 * degToRad, 0, 1, 0);
-		this.scale(15, 8, 0.2);
-    	this.windowAppearance.apply();
-		this.cubeA.display();
-		this.materialDefault.apply();
-	this.popMatrix();
-
 	// Plane Wall
 	this.pushMatrix();
 		this.translate(7.5, 4, 0);
 		this.scale(15, 8, 0.2);
-		this.setDiffuse(0.1, 0.1, 0.1, 1.0);
-		this.setAmbient(0.1,0.1,0.1,1);
-   		this.setSpecular(0.1, 0.1, 0.1, 1.0);
+		this.wallAppearance.apply();
 		this.wall.display();
 	this.popMatrix();
 
-	// First Table
-	this.pushMatrix();
-		this.translate(3.75, 0, 11);
-		this.scale(0.5, 0.5, 0.5);
-		this.table.display();
-	this.popMatrix();
-
-	// Second Table
-	this.pushMatrix();
-		this.translate(11.25, 0, 11);
-		this.scale(0.5, 0.5, 0.5);
-		this.table.display();
-	this.popMatrix();
+	//// First Table
+	//this.pushMatrix();
+	//	this.translate(3.75, 0, 11);
+	//	this.scale(0.5, 0.5, 0.5);
+	//	this.table.display();
+	//this.popMatrix();
+	//
+	//// Second Table
+	//this.pushMatrix();
+	//	this.translate(11.25, 0, 11);
+	//	this.scale(0.5, 0.5, 0.5);
+	//	this.table.display();
+	//this.popMatrix();
 
 	//// First Stool
 	//this.pushMatrix();
@@ -290,15 +290,15 @@ LightingScene.prototype.display = function() {
 	this.popMatrix();
 
 
-	// Cylinder
-	this.pushMatrix();
-		this.translate(0.5, 0, 0.5);
-		this.scale(0.5, 1, 0.5);
-		this.rotate(- Math.PI / 2, 1, 0, 0);
-		this.rotate(Math.PI, 0, 0, 1 );
-		this.cylinderAppearance.apply();
-		this.cylinder.display();
-	this.popMatrix();
+	//// Cylinder
+	//this.pushMatrix();
+	//	this.translate(0.5, 0, 0.5);
+	//	this.scale(0.5, 1, 0.5);
+	//	this.rotate(- Math.PI / 2, 1, 0, 0);
+	//	this.rotate(Math.PI, 0, 0, 1 );
+	//	this.cylinderAppearance.apply();
+	//	this.cylinder.display();
+	//this.popMatrix();
 
 
 	// Clock
@@ -316,6 +316,29 @@ LightingScene.prototype.display = function() {
 		this.rotate(this.robot.angle * degToRad, 0, 1, 0);
 		this.scale(0.7, 0.7, 0.7);
 		this.robot.display();
+	this.popMatrix();
+
+
+	// Windowed Wall
+
+	this.pushMatrix();
+		this.translate(0, 0, 15);
+		this.rotate(90 * degToRad, 0, 1, 0);
+		this.scale(15, 8, 1);
+		this.windowedWallAppearance.apply();
+		this.windowedWall.display();
+	this.popMatrix();
+
+
+	// Impostor
+
+	this.pushMatrix();
+		this.translate(-1, 0, 15);
+		this.rotate(90 * degToRad, 0, 1, 0);
+		this.scale(15, 8, 1);
+		this.translate(0.5, 0.5, 0);
+		this.impostorAppearance.apply();
+		this.impostor.display();
 	this.popMatrix();
 
 

@@ -15,7 +15,7 @@ function MyTable(scene) {
 	this.materialMetal.setDiffuse(0.2, 0.2, 0.2, 1);
 	this.materialMetal.setSpecular(0.3,0.3,0.3,1);
 
-};
+}
 
 MyTable.prototype = Object.create(CGFobject.prototype);
 MyTable.prototype.constructor = MyTable;
