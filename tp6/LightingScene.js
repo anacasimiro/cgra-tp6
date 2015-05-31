@@ -31,7 +31,26 @@ LightingScene.prototype.init = function(application) {
 
 	this.axis = new CGFaxis(this);
 
-    
+
+
+	// Interface
+
+	this.light1 = true;
+	this.light2 = true;
+	this.light3 = true;
+	this.light4 = true;
+	this.clockSwitch = true;
+	this.BigRobot = true;
+	this.BabyRobot = true;
+	this.bigRobotSpeed = 0.12;
+	this.babyRobotSpeed = 0.2;
+	this.bigRobotAppearance = 1;
+	this.babyRobotAppearance = 2;
+	this.tables = true;
+	this.pillar = true;
+
+
+
 	// Scene elements
 	
     this.table 		= new MyTable(this);
@@ -42,15 +61,15 @@ LightingScene.prototype.init = function(application) {
 	this.boardB 	= new Plane(this, BOARD_B_DIVISIONS);
 
 	this.floor 		= new MyQuad(this,0, 10, 0, 12);
-	this.windowWall = new MyQuad(this, -0.2, 1.2, -0.5, 1.5);
 	this.prism 		= new MyPrism(this, 8, 20);
 	this.cylinder 	= new MyCylinder(this, 30, 8);
-	this.robot 		= new MyRobot(this);
+	this.bigRobot	= new MyRobot(this, 7.5, 7.5, 45, this.bigRobotAppearance);
+	this.babyRobot	= new MyRobot(this, 7.5, 2, 45, this.babyRobotAppearance);
 
 	this.clock 		= new MyClock(this);
 
 	this.impostor	= new MyQuad(this);
-	this.windowedWall = new MyWindowedWall(this, 0, 1, 0, 1, 0.3415, 0.6585, 0.2, 0.72);
+	this.windowedWall = new MyWindowedWall(this, 0.3415, 0.6585, 0.245, 0.765);
 
     
 	// Materials and Appearences
@@ -63,13 +82,6 @@ LightingScene.prototype.init = function(application) {
 	this.floorAppearance.setDiffuse(0.34,0.21,0.1,1);
 	this.floorAppearance.setSpecular(0,0,0,1);
 	this.floorAppearance.setShininess(20);
-
-	this.windowAppearance = new CGFappearance(this);
-	this.windowAppearance.loadTexture("../resources/images/window.png");
-	this.windowAppearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
-	this.windowAppearance.setDiffuse(1,1,1,1);
-	this.windowAppearance.setSpecular(0,0,0,1);
-	this.windowAppearance.setShininess(20);
 
 	this.slidesAppearance = new CGFappearance(this);
 	this.slidesAppearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
@@ -100,16 +112,6 @@ LightingScene.prototype.init = function(application) {
 	this.impostorAppearance.loadTexture('../resources/images/impostor.png');
 
 
-    
-    // Interface
-
-	this.light1 = true;
-	this.light2 = true;
-	this.light3 = true;
-	this.light4 = true;
-	this.clockSwitch = true;
-	this.robotSpeed = 0.12;
-	this.currRobotAppearance = 1;
 
 	this.setUpdatePeriod(1000 / FPS);
 
@@ -154,7 +156,7 @@ LightingScene.prototype.initLights = function() {
 };
 
 LightingScene.prototype.updateLights = function() {
-	for (i = 0; i < this.lights.length; i++) {
+	for (var i = 0; i < this.lights.length; i++) {
 		this.lights[i].update();
 	}
 	this.light1 ? this.lights[0].enable() : this.lights[0].disable();
@@ -165,7 +167,10 @@ LightingScene.prototype.updateLights = function() {
 
 LightingScene.prototype.update = function(currTime) {
 
-	this.robot.update();
+	this.bigRobot.appearance = this.bigRobotAppearance;
+	this.bigRobot.update();
+	this.babyRobot.appearance = this.babyRobotAppearance;
+	this.babyRobot.update();
 
 	if ( this.clockSwitch ) {
 		this.clock.update(currTime);
@@ -173,12 +178,20 @@ LightingScene.prototype.update = function(currTime) {
 
 };
 
-LightingScene.prototype.moveRobot = function(direction) {
-	this.robot.move(direction, this.robotSpeed);
+LightingScene.prototype.moveBigRobot = function(direction) {
+	this.bigRobot.move(direction, this.bigRobotSpeed);
 };
 
-LightingScene.prototype.rotateRobot = function(direction) {
-	this.robot.rotate(direction, this.robotSpeed);
+LightingScene.prototype.rotateBigRobot = function(direction) {
+	this.bigRobot.rotate(direction, this.bigRobotSpeed);
+};
+
+LightingScene.prototype.moveBabyRobot = function(direction) {
+	this.babyRobot.move(direction, this.babyRobotSpeed);
+};
+
+LightingScene.prototype.rotateBabyRobot = function(direction) {
+	this.babyRobot.rotate(direction, this.babyRobotSpeed);
 };
 
 LightingScene.prototype.display = function() {
@@ -233,19 +246,24 @@ LightingScene.prototype.display = function() {
 		this.wall.display();
 	this.popMatrix();
 
-	//// First Table
-	//this.pushMatrix();
-	//	this.translate(3.75, 0, 11);
-	//	this.scale(0.5, 0.5, 0.5);
-	//	this.table.display();
-	//this.popMatrix();
-	//
-	//// Second Table
-	//this.pushMatrix();
-	//	this.translate(11.25, 0, 11);
-	//	this.scale(0.5, 0.5, 0.5);
-	//	this.table.display();
-	//this.popMatrix();
+	if ( this.tables ) {
+
+		// First Table
+		this.pushMatrix();
+			this.translate(3.75, 0, 11);
+			this.scale(0.5, 0.5, 0.5);
+			this.table.display();
+		this.popMatrix();
+
+		// Second Table
+		this.pushMatrix();
+			this.translate(11.25, 0, 11);
+			this.scale(0.5, 0.5, 0.5);
+			this.table.display();
+		this.popMatrix();
+
+	}
+
 
 	//// First Stool
 	//this.pushMatrix();
@@ -290,34 +308,55 @@ LightingScene.prototype.display = function() {
 	this.popMatrix();
 
 
+	if ( this.pillar ) {
+
 	//// Cylinder
-	//this.pushMatrix();
-	//	this.translate(0.5, 0, 0.5);
-	//	this.scale(0.5, 1, 0.5);
-	//	this.rotate(- Math.PI / 2, 1, 0, 0);
-	//	this.rotate(Math.PI, 0, 0, 1 );
-	//	this.cylinderAppearance.apply();
-	//	this.cylinder.display();
-	//this.popMatrix();
+	this.pushMatrix();
+		this.translate(0.5, 0, 0.5);
+		this.scale(0.5, 1, 0.5);
+		this.rotate(- Math.PI / 2, 1, 0, 0);
+		this.rotate(Math.PI, 0, 0, 1 );
+		this.cylinderAppearance.apply();
+		this.cylinder.display();
+	this.popMatrix();
+
+	}
+
 
 
 	// Clock
 	this.pushMatrix();
 		this.materialDefault.apply();
-		this.translate(7.25, 7.25, 0);
+		this.translate(7.45, 7.25, 0);
 		this.scale(0.5, 0.5, 0.23);
 		this.clock.display();
 	this.popMatrix();
 
+	// Robot 1
 
-	// Robot
-	this.pushMatrix();
-		this.translate(this.robot.x, 0, this.robot.z);
-		this.rotate(this.robot.angle * degToRad, 0, 1, 0);
-		this.scale(0.7, 0.7, 0.7);
-		this.robot.display();
-	this.popMatrix();
+	if ( this.BigRobot ) {
 
+		this.pushMatrix();
+			this.translate(this.bigRobot.x, 0, this.bigRobot.z);
+			this.rotate(this.bigRobot.angle * degToRad, 0, 1, 0);
+			this.scale(0.7, 0.7, 0.7);
+			this.bigRobot.display();
+		this.popMatrix();
+
+	}
+
+	// Robot 2
+
+	if ( this.BabyRobot ) {
+
+		this.pushMatrix();
+			this.translate(this.babyRobot.x, 0, this.babyRobot.z);
+			this.rotate(this.babyRobot.angle * degToRad, 0, 1, 0);
+			this.scale(0.3, 0.3, 0.3);
+			this.babyRobot.display();
+		this.popMatrix();
+
+	}
 
 	// Windowed Wall
 
@@ -333,7 +372,7 @@ LightingScene.prototype.display = function() {
 	// Impostor
 
 	this.pushMatrix();
-		this.translate(-1, 0, 15);
+		this.translate(-2, 0, 15);
 		this.rotate(90 * degToRad, 0, 1, 0);
 		this.scale(15, 8, 1);
 		this.translate(0.5, 0.5, 0);

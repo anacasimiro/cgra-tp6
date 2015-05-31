@@ -2,9 +2,9 @@ function MyStool(scene) {
 	CGFobject.call(this,scene);
 
 	this.tableAppearance = new CGFappearance(this.scene);
-	this.tableAppearance.loadTexture("../resources/images/stool2.jpg");
+	this.tableAppearance.loadTexture("../resources/images/table.jpg");
 	this.tableAppearance.setDiffuse(1,1,1,1);
-	this.tableAppearance.setSpecular(0,0,0,1)
+	this.tableAppearance.setSpecular(0,0,0,1);
 	this.tableAppearance.setShininess(200);
 
     this.unitCube = new MyUnitCubeQuad(this.scene);

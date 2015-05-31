@@ -1,8 +1,8 @@
 function MyClock(scene) {
 	CGFobject.call(this,scene);
 
-    this.cylinder = new MyCylinder(this.scene, 12, 1, 0, 0, 0, 0);
-    this.clockface = new MyShape(this.scene, 12);
+    this.cylinder = new MyCylinder(this.scene, 60, 1, 0, 0, 0, 0);
+    this.clockface = new MyShape(this.scene, 60);
    	this.hoursHand = new MyClockHand(this.scene, 0.3, 1);
    	this.minutesHand = new MyClockHand(this.scene, 0.8, 0.6);
    	this.secondsHand = new MyClockHand(this.scene, 0.8, 0.3);

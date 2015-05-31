@@ -24,34 +24,45 @@ MyInterface.prototype.init = function(application) {
 
 	this.gui = new dat.GUI();
 
-	var group = this.gui.addFolder("Options");
+	this.gui.close();
 
-	// Lights
+	// Options
+
+	var optionsGroup = this.gui.addFolder("Options");
+
+	optionsGroup.add(this.scene, 'light1');
+	optionsGroup.add(this.scene, 'light2');
+	optionsGroup.add(this.scene, 'light3');
+	optionsGroup.add(this.scene, 'light4');
+	optionsGroup.add(this.scene, 'clockSwitch');
+
+
+	// Objects
+
+	var objectsGroup = this.gui.addFolder("Elements");
+
+	objectsGroup.add(this.scene, 'tables');
+	objectsGroup.add(this.scene, 'pillar');
+	objectsGroup.add(this.scene, 'BigRobot');
+	objectsGroup.add(this.scene, 'BabyRobot');
+
+
+	// Robots
+
+	var robotAppearanceList = {IronMan: 0, TheHulk: 1, CaptainAmerica: 2};
+	var robotsGroup = this.gui.addFolder("Robots");
 	
-	group.add(this.scene, 'light1');
-	group.add(this.scene, 'light2');
-	group.add(this.scene, 'light3');
-	group.add(this.scene, 'light4');
+	robotsGroup.add(this.scene, 'bigRobotSpeed', 0.02, 0.2);
+	robotsGroup.add(this.scene, 'babyRobotSpeed', 0.02, 0.2);
 
-	// Clock
-
-	group.add(this.scene, 'clockSwitch');
-
-	// Robot Speed
-	
-	this.gui.add(this.scene, 'robotSpeed', 0.02, 0.2);
-
-	// Robot appearance
-
-	this.robotAppearanceList = {IronMan: 0, TheHulk: 1, CaptainAmerica: 2};
-
-	this.gui.add(this.scene, 'currRobotAppearance', this.robotAppearanceList);
+	robotsGroup.add(this.scene, 'bigRobotAppearance', robotAppearanceList);
+	robotsGroup.add(this.scene, 'babyRobotAppearance', robotAppearanceList);
 
 
 	// Pressed keys
 
-	this.direction = {up: 87, right: 68, down: 83, left: 65};
-	this.pressedKeys = [false, false, false, false];
+	this.keyDownCodes = {w: 87, d: 68, s: 83, a: 65, up: 38, right: 39, down: 40, left: 37};
+	this.pressedKeys = [false, false, false, false, false, false, false, false];
 
 	return true;
 };
@@ -65,7 +76,11 @@ MyInterface.prototype.processKeyboard = function(event) {
 	CGFinterface.prototype.processKeyboard.call(this,event);
 
 	if ( event.keyCode == 71 || event.keyCode == 103 ) {
-		this.scene.robot.waving = 1;
+		this.scene.bigRobot.waving = 1;
+	}
+
+	if ( event.keyCode == 76 || event.keyCode == 108 ) {
+		this.scene.babyRobot.waving = 1;
 	}
 
 };
@@ -81,20 +96,36 @@ MyInterface.prototype.processKeyDown = function(event) {
 	switch (event.keyCode)
 	{
 
-		case (this.direction.up):
+		case (this.keyDownCodes.w):
 			this.pressedKeys[0] = true;
 		break;
 
-		case (this.direction.right):
+		case (this.keyDownCodes.d):
 			this.pressedKeys[1] = true;
 		break;
 
-		case (this.direction.down):
+		case (this.keyDownCodes.s):
 			this.pressedKeys[2] = true;
 		break;
 
-		case (this.direction.left):
+		case (this.keyDownCodes.a):
 			this.pressedKeys[3] = true;
+		break;
+
+		case (this.keyDownCodes.up):
+			this.pressedKeys[4] = true;
+		break;
+
+		case (this.keyDownCodes.right):
+			this.pressedKeys[5] = true;
+		break;
+
+		case (this.keyDownCodes.down):
+			this.pressedKeys[6] = true;
+		break;
+
+		case (this.keyDownCodes.left):
+			this.pressedKeys[7] = true;
 		break;
 
 	}
@@ -112,22 +143,37 @@ MyInterface.prototype.processKeyUp = function(event) {
 	switch (event.keyCode)
 	{
 
-		case (this.direction.up):
+		case (this.keyDownCodes.w):
 			this.pressedKeys[0] = false;
-		break;
+			break;
 
-		case (this.direction.right):
+		case (this.keyDownCodes.d):
 			this.pressedKeys[1] = false;
-		break;
+			break;
 
-		case (this.direction.down):
+		case (this.keyDownCodes.s):
 			this.pressedKeys[2] = false;
-		break;
+			break;
 
-		case (this.direction.left):
+		case (this.keyDownCodes.a):
 			this.pressedKeys[3] = false;
-		break;
+			break;
 
+		case (this.keyDownCodes.up):
+			this.pressedKeys[4] = false;
+			break;
+
+		case (this.keyDownCodes.right):
+			this.pressedKeys[5] = false;
+			break;
+
+		case (this.keyDownCodes.down):
+			this.pressedKeys[6] = false;
+			break;
+
+		case (this.keyDownCodes.left):
+			this.pressedKeys[7] = false;
+			break;
 	}
 
 };
@@ -137,11 +183,23 @@ MyInterface.prototype.processKeyUp = function(event) {
  */
 MyInterface.prototype.update = function() {
 
-	if ( this.pressedKeys[0] ) this.scene.moveRobot(1);
-	if ( this.pressedKeys[1] ) this.scene.rotateRobot(1);
-	if ( this.pressedKeys[2] ) this.scene.moveRobot(0);
-	if ( this.pressedKeys[3] ) this.scene.rotateRobot(0);
+	// Robot 1
 
-	this.pressedKeys[0] ^ this.pressedKeys[2] ? this.scene.robot.moving = 1 : this.scene.robot.moving = 0;
+	if ( this.pressedKeys[0] ) this.scene.moveBigRobot(1);
+	if ( this.pressedKeys[1] ) this.scene.rotateBigRobot(1);
+	if ( this.pressedKeys[2] ) this.scene.moveBigRobot(0);
+	if ( this.pressedKeys[3] ) this.scene.rotateBigRobot(0);
+
+	this.pressedKeys[0] ^ this.pressedKeys[2] ? this.scene.bigRobot.moving = 1 : this.scene.bigRobot.moving = 0;
+
+
+	// Robot 2
+
+	if ( this.pressedKeys[4] ) this.scene.moveBabyRobot(1);
+	if ( this.pressedKeys[5] ) this.scene.rotateBabyRobot(1);
+	if ( this.pressedKeys[6] ) this.scene.moveBabyRobot(0);
+	if ( this.pressedKeys[7] ) this.scene.rotateBabyRobot(0);
+
+	this.pressedKeys[4] ^ this.pressedKeys[6] ? this.scene.babyRobot.moving = 1 : this.scene.babyRobot.moving = 0;
 
 };

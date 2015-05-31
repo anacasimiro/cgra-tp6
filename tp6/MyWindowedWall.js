@@ -1,10 +1,10 @@
-function MyWindowedWall(scene, minS, maxS, minT, maxT, minWH, maxWH, minWV, maxWV) {
+function MyWindowedWall(scene, minWH, maxWH, minWV, maxWV) {
 	CGFobject.call(this,scene);
 
-	this.minS = minS || 0;
-	this.maxS = maxS || 1;
-	this.minT = minT || 0;
-	this.maxT = maxT || 1;
+	this.minS = 0;
+	this.maxS = 1;
+	this.minT = 0;
+	this.maxT = 1;
 
 	this.minWH = minWH || 0.4;
 	this.maxWH = maxWH || 0.6;
@@ -17,37 +17,15 @@ function MyWindowedWall(scene, minS, maxS, minT, maxT, minWH, maxWH, minWV, maxW
 	this.deltaT  = this.maxT - this.minT;
 	this.deltaWH = this.maxWH - this.minWH;
 	this.deltaWV = this.maxWV - this.minWV;
-	this.tex_w   = 1 / this.deltaS;
-	this.tex_h   = 1 / this.deltaT;
 
-
-	this.mappedMinWH = this.medS - (this.deltaWH * this.deltaS) / 2;
-	this.mappedMaxWH = this.medS + (this.deltaWH * this.deltaS) / 2;
-
-	this.mappedMinWV = this.medT - (this.deltaWV * this.deltaT) / 2;
-	this.mappedMaxWV = this.medT + (this.deltaWV * this.deltaT) / 2;
-
-
-
-	this.topLeft		= new MyQuad(scene, this.minS,			this.mappedMinWH,	this.minT,			this.mappedMinWV);
-	this.topCenter		= new MyQuad(scene, this.mappedMinWH,	this.mappedMaxWH,	this.minT,			this.mappedMinWV);
-	this.topRight		= new MyQuad(scene, this.mappedMaxWH,	this.maxS,			this.minT,			this.mappedMinWV);
-	this.middleLeft		= new MyQuad(scene, this.minS,			this.mappedMinWH,	this.mappedMinWV,	this.mappedMaxWV);
-	this.middleRight	= new MyQuad(scene, this.mappedMaxWH,	this.maxS,			this.mappedMinWV,	this.mappedMaxWV);
-	this.bottomLeft		= new MyQuad(scene, this.minS,			this.mappedMinWH,	this.mappedMaxWV,	this.maxT);
-	this.bottomCenter	= new MyQuad(scene, this.mappedMinWH,	this.mappedMaxWH,	this.mappedMaxWV,	this.maxT);
-	this.bottomRight	= new MyQuad(scene, this.mappedMaxWH,	this.maxS,			this.mappedMaxWV,	this.maxT);
-
-
-
-	//this.topLeft		= new MyQuad(scene, this.minS,	this.minS	+ this.minWH				/ this.tex_w, -0.75, -0.75 + this.minWV / this.tex_h);
-	//this.topCenter		= new MyQuad(scene, 0.25,		0.25		+ (this.maxWH - this.minWH) / this.tex_w, -0.75, -0.75 + this.minWV / this.tex_h);
-	//this.topRight		= new MyQuad(scene, 0.75,		0.75		+ (1 - this.maxWH)			/ this.tex_w, -0.75, -0.75 + this.minWV / this.tex_h);
-	//this.middleLeft		= new MyQuad(scene, -0.75,		-0.75		+ this.minWH				/ this.tex_w, 0.25, 0.25 + (this.maxWV - this.minWV) / this.tex_h);
-	//this.middleRight	= new MyQuad(scene, 0.75,		0.75		+ (1 - this.maxWH)			/ this.tex_w, 0.25, 0.25 + (this.maxWV - this.minWV) / this.tex_h);
-	//this.bottomLeft		= new MyQuad(scene, -0.75,		-0.75		+ this.minWH				/ this.tex_w, 0.75, 0.75 + (1 - this.maxWV) / this.tex_h);
-	//this.bottomCenter	= new MyQuad(scene, 0.25,		0.25		+ (this.maxWH - this.minWH) / this.tex_w, 0.75, 0.75 + (1 - this.maxWV) / this.tex_h);
-	//this.bottomRight	= new MyQuad(scene, 0.75,		0.75		+ (1 - this.maxWH)			/ this.tex_w, 0.75, 0.75 + (1 - this.maxWV) / this.tex_h);
+	this.topLeft		= new MyQuad(scene, this.minS,	this.minWH,	this.minT,	this.minWV);
+	this.topCenter		= new MyQuad(scene, this.minWH,	this.maxWH,	this.minT,	this.minWV);
+	this.topRight		= new MyQuad(scene, this.maxWH,	this.maxS,	this.minT,	this.minWV);
+	this.middleLeft		= new MyQuad(scene, this.minS,	this.minWH,	this.minWV,	this.maxWV);
+	this.middleRight	= new MyQuad(scene, this.maxWH,	this.maxS,	this.minWV,	this.maxWV);
+	this.bottomLeft		= new MyQuad(scene, this.minS,	this.minWH,	this.maxWV,	this.maxT);
+	this.bottomCenter	= new MyQuad(scene, this.minWH,	this.maxWH,	this.maxWV,	this.maxT);
+	this.bottomRight	= new MyQuad(scene, this.maxWH,	this.maxS,	this.maxWV,	this.maxT);
 
 }
 
